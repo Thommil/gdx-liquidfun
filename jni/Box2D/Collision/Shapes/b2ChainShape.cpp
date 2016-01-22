@@ -23,7 +23,13 @@
 #include <memory.h>
 #include <string.h>
 
+
 b2ChainShape::~b2ChainShape()
+{
+	Clear();
+}
+
+void b2ChainShape::Clear()
 {
 	b2Free(m_vertices);
 	m_vertices = NULL;
@@ -34,15 +40,15 @@ void b2ChainShape::CreateLoop(const b2Vec2* vertices, int32 count)
 {
 	b2Assert(m_vertices == NULL && m_count == 0);
 	b2Assert(count >= 3);
+#if B2_ASSERT_ENABLED
 	for (int32 i = 1; i < count; ++i)
 	{
-#if B2_ASSERT_ENABLED
 		b2Vec2 v1 = vertices[i-1];
 		b2Vec2 v2 = vertices[i];
 		// If the code crashes here, it means your vertices are too close together.
 		b2Assert(b2DistanceSquared(v1, v2) > b2_linearSlop * b2_linearSlop);
-#endif // B2_ASSERT_ENABLED
 	}
+#endif // B2_ASSERT_ENABLED	
 
 	m_count = count + 1;
 	m_vertices = (b2Vec2*)b2Alloc(m_count * sizeof(b2Vec2));
@@ -58,15 +64,15 @@ void b2ChainShape::CreateChain(const b2Vec2* vertices, int32 count)
 {
 	b2Assert(m_vertices == NULL && m_count == 0);
 	b2Assert(count >= 2);
+#if B2_ASSERT_ENABLED	
 	for (int32 i = 1; i < count; ++i)
 	{
-#if B2_ASSERT_ENABLED
 		b2Vec2 v1 = vertices[i-1];
 		b2Vec2 v2 = vertices[i];
 		// If the code crashes here, it means your vertices are too close together.
 		b2Assert(b2DistanceSquared(v1, v2) > b2_linearSlop * b2_linearSlop);
-#endif // B2_ASSERT_ENABLED
 	}
+#endif // B2_ASSERT_ENABLED	
 
 	m_count = count;
 	m_vertices = (b2Vec2*)b2Alloc(count * sizeof(b2Vec2));

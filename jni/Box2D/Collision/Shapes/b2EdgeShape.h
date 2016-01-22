@@ -60,7 +60,7 @@ public:
 	/// Set this as an isolated edge, with direct floats.
 	void Set(float32 vx1, float32 vy1, float32 vx2, float32 vy2);
 #endif // LIQUIDFUN_EXTERNAL_LANGUAGE_API
-
+	
 	/// These are the edge vertices
 	b2Vec2 m_vertex1, m_vertex2;
 
