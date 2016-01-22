@@ -18,8 +18,10 @@
 */
 
 #include <Box2D/Collision/b2DynamicTree.h>
-#include <memory.h>
-#include <string.h>
+#include <cstring>
+#include <cfloat>
+#include <memory>
+
 
 b2DynamicTree::b2DynamicTree()
 {
@@ -644,6 +646,7 @@ void b2DynamicTree::ValidateMetrics(int32 index) const
 	int32 height;
 	height = 1 + b2Max(height1, height2);
 #endif // B2_ASSERT_ENABLED
+
 	b2Assert(node->height == height);
 
 	b2AABB aabb;
