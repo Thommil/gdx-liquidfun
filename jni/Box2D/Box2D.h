@@ -21,8 +21,17 @@
 #define BOX2D_H
 
 /**
-\mainpage LiquidFun API Documentation
+\mainpage Box2D API Documentation and LiquidFun
 
+\section intro_sec Getting Started
+
+For documentation please see http://box2d.org/documentation.html
+
+For discussion please visit http://box2d.org/forum
+
+\section liquidfun_sec LiquiFun
+
+For documentation see http://google.github.io/liquidfun/
 */
 
 // These include files constitute the main Box2D API
