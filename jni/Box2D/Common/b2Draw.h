@@ -27,9 +27,9 @@
 struct b2Color
 {
 	b2Color() {}
-	b2Color(float32 r, float32 g, float32 b) : r(r), g(g), b(b) {}
-	void Set(float32 ri, float32 gi, float32 bi) { r = ri; g = gi; b = bi; }
-	float32 r, g, b;
+	b2Color(float32 r, float32 g, float32 b, float32 a = 1.0f) : r(r), g(g), b(b), a(a) {}
+	void Set(float32 ri, float32 gi, float32 bi, float32 ai = 1.0f) { r = ri; g = gi; b = bi; a = ai; }
+	float32 r, g, b, a;
 };
 
 /// Implement and register this class with a b2World to provide debug drawing of physics
@@ -47,7 +47,7 @@ public:
 		e_jointBit				= 0x0002,	///< draw joint connections
 		e_aabbBit				= 0x0004,	///< draw axis aligned bounding boxes
 		e_pairBit				= 0x0008,	///< draw broad-phase pairs
-		e_centerOfMassBit			= 0x0010,	///< draw center of mass frame
+		e_centerOfMassBit		= 0x0010	///< draw center of mass frame
 		e_particleBit				= 0x0020  ///< draw particles
 	};
 
@@ -56,7 +56,7 @@ public:
 
 	/// Get the drawing flags.
 	uint32 GetFlags() const;
-
+	
 	/// Append flags to the current flags.
 	void AppendFlags(uint32 flags);
 
@@ -71,13 +71,13 @@ public:
 
 	/// Draw a circle.
 	virtual void DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color) = 0;
-
+	
 	/// Draw a solid circle.
 	virtual void DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color) = 0;
-
+	
 	/// Draw a particle array
 	virtual void DrawParticles(const b2Vec2 *centers, float32 radius, const b2ParticleColor *colors, int32 count) = 0;
-
+	
 	/// Draw a line segment.
 	virtual void DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color) = 0;
 

@@ -18,11 +18,11 @@
 */
 
 #include <Box2D/Common/b2Settings.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cstdlib>
 
-b2Version b2_version = {2, 3, 0};
+b2Version b2_version = {2, 3, 1};
 
 #define LIQUIDFUN_VERSION_MAJOR 1
 #define LIQUIDFUN_VERSION_MINOR 1
@@ -88,7 +88,6 @@ void b2SetAllocFreeCallbacks(b2AllocFunction allocCallback,
 		b2_callbackData = NULL;
 	}
 }
-
 // Memory allocators. Modify these to use your own allocator.
 void* b2Alloc(int32 size)
 {
@@ -115,7 +114,7 @@ int32 b2GetNumAllocs()
 // You can modify this to use your logging facility.
 void b2Log(const char* string, ...)
 {
-#if DEBUG
+	#if DEBUG
 	va_list args;
 	va_start(args, string);
 	vprintf(string, args);
@@ -134,3 +133,4 @@ public:
 		b2Assert(sizeof(int64)==8);
 	}
 } validate;
+

@@ -20,16 +20,17 @@
 #define B2_MATH_H
 
 #include <Box2D/Common/b2Settings.h>
-#include <math.h>
 
-/// This function is used to ensure that a floating point number is not a NaN or infinity.
+#include <cmath>
+#include <cfloat>
+#include <cstddef>
+
+
+/// This function is used to ensure that a floating point number is
 inline bool b2IsValid(float32 x)
-{
-	union {
-		float32 f;
-		int32 i;
-	} v = { x };
-	return (v.i & 0x7f800000) != 0x7f800000;
+	{
+	int32 ix = *reinterpret_cast<int32*>(&x);
+	return (ix & 0x7f800000) != 0x7f800000;
 }
 
 /// This is a approximate yet fast inverse square-root.
@@ -49,8 +50,8 @@ inline float32 b2InvSqrt(float32 x)
 	return x;
 }
 
-#define	b2Sqrt(x)	sqrtf(x)
-#define	b2Atan2(y, x)	atan2f(y, x)
+#define	b2Sqrt(x)	std::sqrt(x)
+#define	b2Atan2(y, x)	std::atan2(y, x)
 
 /// A 2D column vector.
 struct b2Vec2
@@ -69,7 +70,7 @@ struct b2Vec2
 
 	/// Negate this vector.
 	b2Vec2 operator -() const { b2Vec2 v; v.Set(-x, -y); return v; }
-
+	
 	/// Read from and indexed element.
 	float32 operator () (int32 i) const
 	{
@@ -87,7 +88,7 @@ struct b2Vec2
 	{
 		x += v.x; y += v.y;
 	}
-
+	
 	/// Subtract a vector from this vector.
 	void operator -= (const b2Vec2& v)
 	{
@@ -143,31 +144,7 @@ struct b2Vec2
 	float32 x, y;
 };
 
-/// Add a float to a vector.
-inline b2Vec2 operator + (const b2Vec2& v, float f)
-{
-	return b2Vec2(v.x + f, v.y + f);
-}
-
-/// Substract a float from a vector.
-inline b2Vec2 operator - (const b2Vec2& v, float f)
-{
-	return b2Vec2(v.x - f, v.y - f);
-}
-
-/// Multiply a float with a vector.
-inline b2Vec2 operator * (const b2Vec2& v, float f)
-{
-	return b2Vec2(v.x * f, v.y * f);
-}
-
-/// Divide a vector by a float.
-inline b2Vec2 operator / (const b2Vec2& v, float f)
-{
-	return b2Vec2(v.x / f, v.y / f);
-}
-
-/// A 3D column vector with 3 elements.
+/// A 2D column vector with 3 elements.
 struct b2Vec3
 {
 	/// Default constructor does nothing (for performance).
@@ -203,41 +180,7 @@ struct b2Vec3
 		x *= s; y *= s; z *= s;
 	}
 
-		/// Get the length of this vector (the norm).
-	float32 Length() const
-	{
-		return b2Sqrt(x * x + y * y + z * z);
-	}
-
-	/// Convert this vector into a unit vector. Returns the length.
-	float32 Normalize()
-	{
-		float32 length = Length();
-		if (length < b2_epsilon)
-		{
-			return 0.0f;
-		}
-		float32 invLength = 1.0f / length;
-		x *= invLength;
-		y *= invLength;
-		z *= invLength;
-
-		return length;
-	}
-
 	float32 x, y, z;
-};
-
-/// A 4D column vector with 4 elements.
-struct b2Vec4
-{
-	/// Default constructor does nothing (for performance).
-	b2Vec4() {}
-
-	/// Construct using coordinates.
-	b2Vec4(float32 x, float32 y, float32 z, float32 w) : x(x), y(y), z(z), w(w) {}
-
-	float32 x, y, z, w;
 };
 
 /// A 2-by-2 matrix. Stored in column-major order.
@@ -430,20 +373,6 @@ struct b2Transform
 		q.Set(angle);
 	}
 
-#if LIQUIDFUN_EXTERNAL_LANGUAGE_API
-	/// Get x-coordinate of p.
-	float32 GetPositionX() const { return p.x; }
-
-	/// Get y-coordinate of p.
-	float32 GetPositionY() const { return p.y; }
-
-	/// Get sine-component of q.
-	float32 GetRotationSin() const { return q.s; }
-
-	/// Get cosine-component of q.
-	float32 GetRotationCos() const { return q.c; }
-#endif // LIQUIDFUN_EXTERNAL_LANGUAGE_API
-
 	b2Vec2 p;
 	b2Rot q;
 };
@@ -537,11 +466,6 @@ inline b2Vec2 operator * (float32 s, const b2Vec2& a)
 inline bool operator == (const b2Vec2& a, const b2Vec2& b)
 {
 	return a.x == b.x && a.y == b.y;
-}
-
-inline bool operator != (const b2Vec2& a, const b2Vec2& b)
-{
-	return !operator==(a, b);
 }
 
 inline float32 b2Distance(const b2Vec2& a, const b2Vec2& b)
