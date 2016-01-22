@@ -1,7 +1,7 @@
 <project name="android-natives" basedir="." default="postcompile">
 	<property environment="env" />
 	<!--  the suffix ndk-build executable -->	
-	<property name="ndkSuffix" value=".cmd" />
+	<property name="ndkSuffix" value="" />
 
 	<target name="clean" depends="check-for-ndk" if="has-ndk-build">
 		<exec executable="${env.NDK_HOME}/ndk-build${ndkSuffix}" failonerror="true">

@@ -1,4 +1,4 @@
-<project name="gdx-liquidfun-Windows-64" basedir="." default="postcompile">
+<project name="gdx-box2d-Windows-64" basedir="." default="postcompile">
 	<!-- include the environment -->
 	<property environment="env"/>	
 	<!-- output directory for temporary object files -->
@@ -6,7 +6,7 @@
 	<!-- output directory for the shared library -->
 	<property name="libsDir" value="../libs/windows64" />
 	<!-- the name of the shared library -->
-	<property name="libName" value="gdx-liquidfun64.dll"/>
+	<property name="libName" value="gdx-box2d64.dll"/>
 	<!-- the jni header jniPlatform to use -->
 	<property name="jniPlatform" value="win32"/>
 	<!-- the compilerPrefix for the C & C++ compilers -->

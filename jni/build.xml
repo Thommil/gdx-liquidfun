@@ -1,20 +1,24 @@
 <project name="gdx-liquidfun-natives" basedir="." default="all">
 	<target name="clean">
-		<ant antfile="build-windows32.xml" target="clean"/>
-		<ant antfile="build-windows64.xml" target="clean"/>
+		<ant antfile="build-android32.xml" target="clean"/>
+		<ant antfile="build-ios32.xml" target="clean"/>
 		<ant antfile="build-linux32.xml" target="clean"/>
 		<ant antfile="build-linux64.xml" target="clean"/>
-		<ant antfile="build-android32.xml" target="clean"/>
-
+		<ant antfile="build-macosx32.xml" target="clean"/>
+		<ant antfile="build-macosx64.xml" target="clean"/>
+		<ant antfile="build-windows32.xml" target="clean"/>
+		<ant antfile="build-windows64.xml" target="clean"/>
 	</target>
 	
 	<target name="compile-natives">
-		<ant antfile="build-windows32.xml"/>
-		<ant antfile="build-windows64.xml"/>
+		<ant antfile="build-android32.xml"/>
+		<ant antfile="build-ios32.xml"/>
 		<ant antfile="build-linux32.xml"/>
 		<ant antfile="build-linux64.xml"/>
-		<ant antfile="build-android32.xml"/>
-
+		<ant antfile="build-macosx32.xml"/>
+		<ant antfile="build-macosx64.xml"/>
+		<ant antfile="build-windows32.xml"/>
+		<ant antfile="build-windows64.xml"/>
 	</target>
 	
 	<target name="pack-natives">
@@ -25,9 +29,8 @@
 			<fileset dir="../libs/linux64" includes="libgdx-liquidfun64.so"/>
 			<fileset dir="../libs/macosx32" includes="libgdx-liquidfun.dylib"/>
 			<fileset dir="../libs/macosx64" includes="libgdx-liquidfun64.dylib"/>
-
 		</jar>
 	</target>
 
-	<target name="all" depends="compile-natives,pack-natives"/>
+	<target name="all" depends="compile-natives"/>
 </project>
