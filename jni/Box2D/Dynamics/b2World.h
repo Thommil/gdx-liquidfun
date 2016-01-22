@@ -57,7 +57,7 @@ public:
 
 	/// Register a contact filter to provide specific control over collision.
 	/// Otherwise the default filter is used (b2_defaultFilter). The listener is
-	/// owned by you and must remain in scope.
+	/// owned by you and must remain in scope. 
 	void SetContactFilter(b2ContactFilter* filter);
 
 	/// Register a contact event listener. The listener is owned by you and must
@@ -74,8 +74,8 @@ public:
 	/// @warning This function is locked during callbacks.
 	b2Body* CreateBody(const b2BodyDef* def);
 
-	/// Destroy a rigid body.
-	/// This function is locked during callbacks.
+	/// Destroy a rigid body given a definition. No reference to the definition
+	/// is retained. This function is locked during callbacks.
 	/// @warning This automatically deletes all associated shapes and joints.
 	/// @warning This function is locked during callbacks.
 	void DestroyBody(b2Body* body);
@@ -235,7 +235,7 @@ public:
 
 	/// Change the global gravity vector.
 	void SetGravity(const b2Vec2& gravity);
-
+	
 	/// Get the global gravity vector.
 	b2Vec2 GetGravity() const;
 
@@ -329,7 +329,7 @@ private:
 	bool m_allowSleep;
 
 	b2DestructionListener* m_destructionListener;
-	b2Draw* m_debugDraw;
+	b2Draw* g_debugDraw;
 
 	// This is used to compute the time step ratio to
 	// support a variable time step.

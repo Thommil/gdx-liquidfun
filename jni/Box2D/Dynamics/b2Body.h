@@ -22,9 +22,11 @@
 
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
+#include <new>
 #include <memory>
 /// Added by finnstr
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
+
 
 class b2Fixture;
 class b2Joint;
@@ -413,7 +415,7 @@ private:
 	friend class b2ContactManager;
 	friend class b2ContactSolver;
 	friend class b2Contact;
-
+	
 	friend class b2DistanceJoint;
 	friend class b2FrictionJoint;
 	friend class b2GearJoint;

@@ -32,7 +32,7 @@ class b2ContactManager
 {
 public:
 	friend class b2ParticleSystem;
-
+	
 	b2ContactManager();
 
 	// Broad-phase callback.

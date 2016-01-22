@@ -213,7 +213,7 @@ public:
 	/// Called for each fixture found in the query AABB.
 	/// @return false to terminate the query.
 	virtual bool ReportFixture(b2Fixture* fixture) = 0;
-
+	
 	/// Called for each particle found in the query AABB.
 	/// @return false to terminate the query.
 	virtual bool ReportParticle(const b2ParticleSystem* particleSystem,
@@ -233,7 +233,7 @@ public:
 	{
 		B2_NOT_USED(particleSystem);
 		return true;
-	}
+	}	
 };
 
 /// Callback class for ray casts.
