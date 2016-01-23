@@ -1,4 +1,4 @@
-<project name="gdx-box2d-MacOsX-64" basedir="." default="postcompile">
+<project name="gdx-liquidfun-MacOsX-64" basedir="." default="postcompile">
 	<!-- include the environment -->
 	<property environment="env"/>	
 	<!-- output directory for temporary object files -->
@@ -6,7 +6,7 @@
 	<!-- output directory for the shared library -->
 	<property name="libsDir" value="../libs/macosx64" />
 	<!-- the name of the shared library -->
-	<property name="libName" value="libgdx-box2d64.dylib"/>
+	<property name="libName" value="libgdx-liquidfun64.dylib"/>
 	<!-- the jni header jniPlatform to use -->
 	<property name="jniPlatform" value="mac"/>
 	<!-- the compilerPrefix for the C & C++ compilers -->

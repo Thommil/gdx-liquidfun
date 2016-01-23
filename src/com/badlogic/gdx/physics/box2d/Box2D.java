@@ -29,7 +29,7 @@ public final class Box2D {
 	 * classes/methods can be used. Currently with the exception of the {@link World} class, which will also cause the Box2D
 	 * natives to be loaded. */
 	public static void init () {
-		new SharedLibraryLoader().load("gdx-box2d");
+		new SharedLibraryLoader().load("libgdx-liquidfun");
 	}
 
 }

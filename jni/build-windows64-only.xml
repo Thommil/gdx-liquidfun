@@ -8,8 +8,8 @@
         </target>
        
         <target name="pack-natives">
-                <jar destfile="../libs/gdx-box2d-natives.jar">
-                        <fileset dir="../libs/windows64" includes="gdx-box2d64.dll"/>
+                <jar destfile="../libs/libgdx-liquidfun-natives.jar">
+                        <fileset dir="../libs/windows64" includes="gdx-liquidfun64.dll"/>
                 </jar>
         </target>
  
