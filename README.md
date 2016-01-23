@@ -12,11 +12,25 @@ You can also get some information or ask some questions [in the badlogic forum][
   [in the badlogic forum]: http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=13717
 
 Update by Thommil
-=======================
-* Import/merge of trunk version of LibGDX Box2D (22/01/2016)
+=================
+## Changes
+* Import/merge of trunk version of libgdx Box2D (22/01/2016)
 * Build fix for IOS
 * Bugs fix
+* Structure refactoring for development in libgdx source
 
+## Build
+
+Clone project in libgdx extensions folder
+
+```
+cd $LIBGDX_SOURCE_ROOT/extensions
+git clone https://github.com/Thommil/gdx-liquidfun.git
+```
+
+Edit build.xml to add gdx-liquidfun
+
+```xml
 <target name="gdx-liquidfun" depends="gdx-core">
 	<path id="classpath">
 		<pathelement location="${distDir}/gdx.jar"/>
@@ -28,3 +42,12 @@ Update by Thommil
 		<reference refid="classpath"/>
 	</ant>
 </target>
+```
+
+Build all or directly
+
+```
+cd $LIBGDX_SOURCE_ROOT/extensions
+ant gdx-liquidfun
+```
+
