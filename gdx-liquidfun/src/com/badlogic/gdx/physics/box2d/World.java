@@ -290,28 +290,28 @@ b2ContactFilter defaultFilter;
 	};
 
 	/** the address of the world instance **/
-	protected final long addr;
+	public final long addr;
 
 	/** all known bodies **/
-	protected final LongMap<Body> bodies = new LongMap<Body>(100);
+	public final LongMap<Body> bodies = new LongMap<Body>(100);
 
 	/** all known fixtures **/
-	protected final LongMap<Fixture> fixtures = new LongMap<Fixture>(100);
+	public final LongMap<Fixture> fixtures = new LongMap<Fixture>(100);
 
 	/** all known particlesystems **/
 	public final LongMap<ParticleSystem> particleSystems = new LongMap<ParticleSystem>(100);
 	
 	/** all known joints **/
-	protected final LongMap<Joint> joints = new LongMap<Joint>(100);
+	public final LongMap<Joint> joints = new LongMap<Joint>(100);
 
 	/** Contact filter **/
-	protected ContactFilter contactFilter = null;
+	public ContactFilter contactFilter = null;
 
 	/** Contact listener **/
-	protected ContactListener contactListener = null;
+	public ContactListener contactListener = null;
 
 	/** ParticleBody contact listener **/
-	protected ParticleBodyContactListener particleBodyContactListener = null;
+	public ParticleBodyContactListener particleBodyContactListener = null;
 
 	/** Construct a world object.
 	 * @param gravity the world gravity vector.

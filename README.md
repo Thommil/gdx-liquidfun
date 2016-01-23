@@ -14,7 +14,7 @@ You can also get some information or ask some questions [in the badlogic forum][
 Update by Thommil
 =================
 ## Changes
-* Import/merge of trunk version of libgdx Box2D (Box2D 2.3.1 - 22/01/2016)
+* Import/merge of trunk version of libgdx gdx-box2d extension (Box2D 2.3.1 - 22/01/2016)
 * Build fix for IOS
 * Bugs fix
 * Structure refactoring for development in libgdx source
