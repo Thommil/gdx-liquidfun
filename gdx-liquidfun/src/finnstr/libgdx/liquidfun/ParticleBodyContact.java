@@ -37,7 +37,7 @@ public class ParticleBodyContact {
 	
 	/** The body making contact. */
 	public Body getBody() {
-		return world.bodies.get(jniGetBodyAddr(addr));
+		return world.getBodies().get(jniGetBodyAddr(addr));
 	}
 	
 	private native long jniGetBodyAddr(long addr); /*
@@ -47,7 +47,7 @@ public class ParticleBodyContact {
 	
 	/** The specific fixture making contact. */
 	public Fixture getFixture() {
-		return world.fixtures.get(jniGetFixtureAddr(addr));
+		return world.getFixtures().get(jniGetFixtureAddr(addr));
 	}
 	
 	private native long jniGetFixtureAddr(long addr); /*

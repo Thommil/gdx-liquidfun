@@ -289,13 +289,13 @@ b2ContactFilter defaultFilter;
 	};
 
 	/** the address of the world instance **/
-	private final long addr;
+	protected final long addr;
 
 	/** all known bodies **/
-	public final LongMap<Body> bodies = new LongMap<Body>(100);
+	protected final LongMap<Body> bodies = new LongMap<Body>(100);
 
 	/** all known fixtures **/
-	public final LongMap<Fixture> fixtures = new LongMap<Fixture>(100);
+	protected final LongMap<Fixture> fixtures = new LongMap<Fixture>(100);
 	
 	/** all known particlesystems **/
 	public final LongMap<ParticleSystem> particleSystems = new LongMap<ParticleSystem>(100);
@@ -425,8 +425,11 @@ b2ContactFilter defaultFilter;
 		this.bodies.remove(body.addr);
 		Array<Fixture> fixtureList = body.getFixtureList();
 		while(fixtureList.size > 0) {
-			this.fixtures.remove(fixtureList.removeIndex(0).addr).setUserData(null);
-		}
+			Fixture fixtureToDelete = fixtureList.removeIndex(0);
+ 			this.fixtures.remove(fixtureToDelete.addr).setUserData(null);
+ 			freeFixtures.free(fixtureToDelete);
+ 		}
+		
 		freeBodies.free(body);
 	}
 
@@ -438,6 +441,42 @@ b2ContactFilter defaultFilter;
 		world->SetContactFilter(&contactFilter);
 		world->SetContactListener(&contactListener);
 		world->DestroyBody(body);
+		world->SetContactFilter(&defaultFilter);
+		world->SetContactListener(0);
+	*/
+
+	void destroyFixture(Body body, Fixture fixture) {
+		jniDestroyFixture(addr, body.addr, fixture.addr);
+	}
+	
+	private native void jniDestroyFixture(long addr, long bodyAddr, long fixtureAddr); /*
+		b2World* world = (b2World*)(addr);
+		b2Body* body = (b2Body*)(bodyAddr);
+		b2Fixture* fixture = (b2Fixture*)(fixtureAddr);
+		CustomContactFilter contactFilter(env, object);
+		CustomContactListener contactListener(env, object);
+		world->SetContactFilter(&contactFilter);
+		world->SetContactListener(&contactListener);
+		body->DestroyFixture(fixture);
+		world->SetContactFilter(&defaultFilter);
+		world->SetContactListener(0);
+	*/
+	
+	/** Internal method for body deactivation with notifying custom
+	 * contact listener
+	 * @param body */
+	void deactivateBody(Body body) {
+		jniDeactivateBody(addr, body.addr);
+	}
+	
+	private native void jniDeactivateBody(long addr, long bodyAddr); /*
+		b2World* world = (b2World*)(addr);
+		b2Body* body = (b2Body*)(bodyAddr);	
+		CustomContactFilter contactFilter(env, object);
+		CustomContactListener contactListener(env, object);
+		world->SetContactFilter(&contactFilter);
+		world->SetContactListener(&contactListener);
+		body->SetActive(false);
 		world->SetContactFilter(&defaultFilter);
 		world->SetContactListener(0);
 	*/
@@ -521,7 +560,7 @@ b2ContactFilter defaultFilter;
 		if (def.type == JointType.WeldJoint) {
 			WeldJointDef d = (WeldJointDef)def;
 			return jniCreateWeldJoint(addr, d.bodyA.addr, d.bodyB.addr, d.collideConnected, d.localAnchorA.x, d.localAnchorA.y,
-				d.localAnchorB.x, d.localAnchorB.y, d.referenceAngle);
+				d.localAnchorB.x, d.localAnchorB.y, d.referenceAngle, d.frequencyHz, d.dampingRatio);
 		}
 		if (def.type == JointType.WheelJoint) {
 			WheelJointDef d = (WheelJointDef)def;
@@ -701,7 +740,7 @@ b2ContactFilter defaultFilter;
 	*/
 
 	private native long jniCreateWeldJoint (long addr, long bodyA, long bodyB, boolean collideConnected, float localAnchorAX,
-		float localAnchorAY, float localAnchorBX, float localAnchorBY, float referenceAngle); /*
+		float localAnchorAY, float localAnchorBX, float localAnchorBY, float referenceAngle, float frequencyHz, float dampingRatio); /*
 		b2World* world = (b2World*)addr;
 		b2WeldJointDef def;
 		def.bodyA = (b2Body*)bodyA;
@@ -710,6 +749,8 @@ b2ContactFilter defaultFilter;
 		def.localAnchorA = b2Vec2(localAnchorAX, localAnchorAY);
 		def.localAnchorB = b2Vec2(localAnchorBX, localAnchorBY);
 		def.referenceAngle = referenceAngle;
+		def.frequencyHz = frequencyHz;
+		def.dampingRatio = dampingRatio;
 	
 		return (jlong)world->CreateJoint(&def);
 	*/
@@ -811,6 +852,11 @@ b2ContactFilter defaultFilter;
 		b2World* world = (b2World*)addr;
 		return world->GetBodyCount();
 	*/
+	
+	/** Get the number of fixtures. */
+	public int getFixtureCount () {
+		return fixtures.size;
+	}
 
 	/** Get the number of joints. */
 	public int getJointCount () {
@@ -932,7 +978,7 @@ b2ContactFilter defaultFilter;
 	private final Array<Contact> contacts = new Array<Contact>();
 	private final Array<Contact> freeContacts = new Array<Contact>();
 
-	/** Returns the list of {@link Contact} instances produced by the last call to {@link #step(float, int, int, int)}. Note that the
+	/** Returns the list of {@link Contact} instances produced by the last call to {@link #step(float, int, int)}. Note that the
 	 * returned list will have O(1) access times when using indexing. contacts are created and destroyed in the middle of a time
 	 * step. Use {@link ContactListener} to avoid missing contacts
 	 * @return the contact list */
@@ -961,12 +1007,29 @@ b2ContactFilter defaultFilter;
 		return contacts;
 	}
 
+	public LongMap<Body> getBodies () {
+		return this.bodies;
+	}
+
+	public LongMap<Fixture> getFixtures () {
+		return this.fixtures;
+	}
+
 	/** @param bodies an Array in which to place all bodies currently in the simulation */
 	public void getBodies (Array<Body> bodies) {
 		bodies.clear();
 		bodies.ensureCapacity(this.bodies.size);
 		for (Iterator<Body> iter = this.bodies.values(); iter.hasNext();) {
 			bodies.add(iter.next());
+		}		
+	}
+
+	/** @param fixtures an Array in which to place all fixtures currently in the simulation */
+	public void getFixtures (Array<Fixture> fixtures) {
+		fixtures.clear();
+		fixtures.ensureCapacity(this.fixtures.size);
+		for (Iterator<Fixture> iter = this.fixtures.values(); iter.hasNext();) {
+			fixtures.add(iter.next());
 		}		
 	}
 
@@ -1092,6 +1155,17 @@ b2ContactFilter defaultFilter;
 		else
 			return false;
 	}
+
+	/** Sets the box2d velocity threshold globally, for all World instances.
+	 * @param threshold the threshold, default 1.0f */
+	public static native void setVelocityThreshold (float threshold); /*
+		b2_velocityThreshold = threshold;
+	*/
+
+	/** @return the global box2d velocity threshold. */
+	public static native float getVelocityThreshold (); /*
+		return b2_velocityThreshold;
+	*/
 	
 	/** Ray-cast the world for all fixtures in the path of the ray. The ray-cast ignores shapes that contain the starting point.
 	 * @param callback a user implemented callback class.

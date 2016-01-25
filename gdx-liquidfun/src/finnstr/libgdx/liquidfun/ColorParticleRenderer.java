@@ -25,7 +25,7 @@ public class ColorParticleRenderer {
 	public void setMaxParticleNumber(int count) {
 		if(mesh != null) mesh.dispose();
 		mesh = new Mesh(false, count, count, new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE), 
-															 new VertexAttribute(Usage.Color, 4, ShaderProgram.COLOR_ATTRIBUTE));
+															 new VertexAttribute(Usage.ColorUnpacked, 4, ShaderProgram.COLOR_ATTRIBUTE));
 	}
 	
 	public int getMaxParticleNumber() {
