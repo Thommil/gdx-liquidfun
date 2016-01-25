@@ -289,7 +289,7 @@ b2ContactFilter defaultFilter;
 	};
 
 	/** the address of the world instance **/
-	private final long addr;
+	protected final long addr;
 
 	/** all known bodies **/
 	public final LongMap<Body> bodies = new LongMap<Body>(100);
@@ -425,8 +425,11 @@ b2ContactFilter defaultFilter;
 		this.bodies.remove(body.addr);
 		Array<Fixture> fixtureList = body.getFixtureList();
 		while(fixtureList.size > 0) {
-			this.fixtures.remove(fixtureList.removeIndex(0).addr).setUserData(null);
-		}
+			Fixture fixtureToDelete = fixtureList.removeIndex(0);
+ 			this.fixtures.remove(fixtureToDelete.addr).setUserData(null);
+ 			freeFixtures.free(fixtureToDelete);
+ 		}
+		
 		freeBodies.free(body);
 	}
 
@@ -521,7 +524,7 @@ b2ContactFilter defaultFilter;
 		if (def.type == JointType.WeldJoint) {
 			WeldJointDef d = (WeldJointDef)def;
 			return jniCreateWeldJoint(addr, d.bodyA.addr, d.bodyB.addr, d.collideConnected, d.localAnchorA.x, d.localAnchorA.y,
-				d.localAnchorB.x, d.localAnchorB.y, d.referenceAngle);
+				d.localAnchorB.x, d.localAnchorB.y, d.referenceAngle, d.frequencyHz, d.dampingRatio);
 		}
 		if (def.type == JointType.WheelJoint) {
 			WheelJointDef d = (WheelJointDef)def;
@@ -701,7 +704,7 @@ b2ContactFilter defaultFilter;
 	*/
 
 	private native long jniCreateWeldJoint (long addr, long bodyA, long bodyB, boolean collideConnected, float localAnchorAX,
-		float localAnchorAY, float localAnchorBX, float localAnchorBY, float referenceAngle); /*
+		float localAnchorAY, float localAnchorBX, float localAnchorBY, float referenceAngle, float frequencyHz, float dampingRatio); /*
 		b2World* world = (b2World*)addr;
 		b2WeldJointDef def;
 		def.bodyA = (b2Body*)bodyA;
@@ -710,6 +713,8 @@ b2ContactFilter defaultFilter;
 		def.localAnchorA = b2Vec2(localAnchorAX, localAnchorAY);
 		def.localAnchorB = b2Vec2(localAnchorBX, localAnchorBY);
 		def.referenceAngle = referenceAngle;
+		def.frequencyHz = frequencyHz;
+		def.dampingRatio = dampingRatio;
 	
 		return (jlong)world->CreateJoint(&def);
 	*/
@@ -811,6 +816,11 @@ b2ContactFilter defaultFilter;
 		b2World* world = (b2World*)addr;
 		return world->GetBodyCount();
 	*/
+	
+	/** Get the number of fixtures. */
+	public int getFixtureCount () {
+		return fixtures.size;
+	}
 
 	/** Get the number of joints. */
 	public int getJointCount () {
@@ -970,6 +980,15 @@ b2ContactFilter defaultFilter;
 		}		
 	}
 
+	/** @param fixtures an Array in which to place all fixtures currently in the simulation */
+	public void getFixtures (Array<Fixture> fixtures) {
+		fixtures.clear();
+		fixtures.ensureCapacity(this.fixtures.size);
+		for (Iterator<Fixture> iter = this.fixtures.values(); iter.hasNext();) {
+			fixtures.add(iter.next());
+		}		
+	}
+
 	/** @param joints an Array in which to place all joints currently in the simulation */
 	public void getJoints (Array<Joint> joints) {
 		joints.clear();
@@ -1078,20 +1097,17 @@ b2ContactFilter defaultFilter;
 		else
 			return false;
 	}
-	
-	private boolean reportParticle (long particleSystemAddr, int index) {
-		if (queryCallback != null)
-			return queryCallback.reportParticle(this.particleSystems.get(particleSystemAddr), index);
-		else
-			return false;
-	}
-	
-	private boolean shouldQueryParticleSystem(long particleSystemAddr) {
-		if (queryCallback != null)
-			return queryCallback.shouldQueryParticleSystem(this.particleSystems.get(particleSystemAddr));
-		else
-			return false;
-	}
+
+	/** Sets the box2d velocity threshold globally, for all World instances.
+	 * @param threshold the threshold, default 1.0f */
+	public static native void setVelocityThreshold (float threshold); /*
+		b2_velocityThreshold = threshold;
+	*/
+
+	/** @return the global box2d velocity threshold. */
+	public static native float getVelocityThreshold (); /*
+		return b2_velocityThreshold;
+	*/
 	
 	/** Ray-cast the world for all fixtures in the path of the ray. The ray-cast ignores shapes that contain the starting point.
 	 * @param callback a user implemented callback class.
