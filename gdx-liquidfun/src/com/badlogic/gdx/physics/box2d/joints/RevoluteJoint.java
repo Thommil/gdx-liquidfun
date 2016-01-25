@@ -182,9 +182,9 @@ public class RevoluteJoint extends Joint {
 	*/
 	
 	public Vector2 getLocalAnchorB () {
-		jniGetLocalAnchorB(addr, tmp);
-		localAnchorB.set(tmp[0], tmp[1]);
-		return localAnchorB;
+		jniGetLocalAnchorA(addr, tmp);
+		localAnchorA.set(tmp[0], tmp[1]);
+		return localAnchorA;
 	}
 
 	private native void jniGetLocalAnchorB (long addr, float[] anchor); /*

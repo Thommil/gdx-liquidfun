@@ -38,6 +38,18 @@ JNIEXPORT jlong JNICALL Java_com_badlogic_gdx_physics_box2d_Body_jniCreateFixtur
 
 }
 
+JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_Body_jniDestroyFixture(JNIEnv* env, jobject object, jlong addr, jlong fixtureAddr) {
+
+
+//@line:135
+
+		b2Body* body = (b2Body*)addr;
+		b2Fixture* fixture = (b2Fixture*)fixtureAddr;
+		body->DestroyFixture(fixture);
+	
+
+}
+
 JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_Body_jniSetTransform(JNIEnv* env, jobject object, jlong addr, jfloat positionX, jfloat positionY, jfloat angle) {
 
 

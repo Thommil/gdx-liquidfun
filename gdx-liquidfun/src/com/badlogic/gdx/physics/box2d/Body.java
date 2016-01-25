@@ -126,8 +126,7 @@ public class Body {
 	 * @param fixture the fixture to be removed.
 	 * @warning This function is locked during callbacks. */
 	public void destroyFixture (Fixture fixture) {
-		this.world.destroyFixture(this, fixture);
-		fixture.setUserData(null);
+		jniDestroyFixture(addr, fixture.addr);
 		this.world.fixtures.remove(fixture.addr);
 		this.fixtures.removeValue(fixture, true);
 		this.world.freeFixtures.free(fixture);
@@ -720,11 +719,7 @@ inline b2BodyType getBodyType( int type )
 	 * participate in collisions, ray-casts, or queries. Joints connected to an inactive body are implicitly inactive. An inactive
 	 * body is still owned by a b2World object and remains in the body list. */
 	public void setActive (boolean flag) {
-		if (flag) {
-			jniSetActive(addr, flag);
-		} else {
-			this.world.deactivateBody(this);
-		}
+		jniSetActive(addr, flag);
 	}
 
 	private native void jniSetActive (long addr, boolean flag); /*

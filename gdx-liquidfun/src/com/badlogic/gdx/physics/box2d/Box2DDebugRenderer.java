@@ -29,9 +29,8 @@ import com.badlogic.gdx.physics.box2d.JointDef.JointType;
 import com.badlogic.gdx.physics.box2d.Shape.Type;
 import com.badlogic.gdx.physics.box2d.joints.PulleyJoint;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
 
-public class Box2DDebugRenderer implements Disposable {
+public class Box2DDebugRenderer {
 
 	/** the immediate mode renderer to output our debug drawings **/
 	protected ShapeRenderer renderer;
@@ -151,7 +150,7 @@ public class Box2DDebugRenderer implements Disposable {
 			CircleShape shape = (CircleShape)fixture.getShape();
 			float radius = shape.getRadius();
 			vertices[0].set(shape.getPosition());
-			transform.mul(vertices[0]);
+			vertices[0].rotate(transform.getRotation()).add(transform.getPosition());
 			lower.set(vertices[0].x - radius, vertices[0].y - radius);
 			upper.set(vertices[0].x + radius, vertices[0].y + radius);
 
