@@ -20,9 +20,10 @@
 #ifndef B2_SETTINGS_H
 #define B2_SETTINGS_H
 
-#include <stddef.h>
-#include <assert.h>
-#include <float.h>
+#include <cstddef>
+#include <cassert>
+#include <cfloat>
+#include <cmath>
 
 #define B2_NOT_USED(x) ((void)(x))
 #if DEBUG && !defined(NDEBUG)
@@ -130,7 +131,8 @@ typedef unsigned long long uint64;
 
 /// A velocity threshold for elastic collisions. Any collision with a relative linear
 /// velocity below this threshold will be treated as inelastic.
-#define b2_velocityThreshold		1.0f
+/// modified by mzechner: defined in b2ContactSolver as a global.
+extern float b2_velocityThreshold;
 
 /// The maximum linear position correction used when solving constraints. This helps to
 /// prevent overshoot.

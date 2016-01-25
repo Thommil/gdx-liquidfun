@@ -18,11 +18,11 @@
 */
 
 #include <Box2D/Common/b2Settings.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cstdlib>
 
-b2Version b2_version = {2, 3, 0};
+b2Version b2_version = {2, 3, 1};
 
 #define LIQUIDFUN_VERSION_MAJOR 1
 #define LIQUIDFUN_VERSION_MINOR 1

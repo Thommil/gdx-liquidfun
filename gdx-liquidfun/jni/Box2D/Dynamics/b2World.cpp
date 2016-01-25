@@ -458,6 +458,7 @@ void b2World::Init(const b2Vec2& gravity)
 void b2World::Solve(const b2TimeStep& step)
 {
 	// update previous transforms
+	// TODO THOMMIL Comment block below
 	for (b2Body* b = m_bodyList; b; b = b->m_next)
 	{
 		b->m_xf0 = b->m_xf;
@@ -1007,7 +1008,7 @@ void b2World::Step(
 	step.dtRatio = m_inv_dt0 * dt;
 
 	step.warmStarting = m_warmStarting;
-
+	
 	// Update contacts. This is where some contacts are destroyed.
 	{
 		b2Timer timer;

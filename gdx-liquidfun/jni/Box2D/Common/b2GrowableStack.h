@@ -20,8 +20,8 @@
 #define B2_GROWABLE_STACK_H
 
 #include <Box2D/Common/b2Settings.h>
-#include <string.h>
-#include <memory.h>
+#include <cstring>
+#include <memory>
 
 /// This is a growable LIFO stack with an initial capacity of N.
 /// If the stack size exceeds the initial capacity, the heap is used
@@ -85,3 +85,4 @@ private:
 
 
 #endif
+

@@ -23,7 +23,7 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Common/b2Timer.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 float32 b2_toiTime, b2_toiMaxTime;
 int32 b2_toiCalls, b2_toiIters, b2_toiMaxIters;
@@ -67,6 +67,7 @@ struct b2SeparationFunction
 			b2Vec2 pointB = b2Mul(xfB, localPointB);
 			m_axis = pointB - pointA;
 			float32 s = m_axis.Normalize();
+			// TODO THOMMIL Remove ?
 			m_localPoint = b2Vec2_zero;
 			return s;
 		}

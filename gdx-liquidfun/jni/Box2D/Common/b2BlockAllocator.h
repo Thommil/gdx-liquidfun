@@ -48,6 +48,7 @@ public:
 	void Clear();
 
 	/// Returns the number of allocations larger than the max block size.
+	// TODO THOMMIL Comment
 	uint32 GetNumGiantAllocations() const;
 
 private:
@@ -58,6 +59,7 @@ private:
 	b2Block* m_freeLists[b2_blockSizes];
 
 	// Record giant allocations--ones bigger than the max block size
+	// TODO THOMMIL Comment
 	b2TrackedBlockAllocator m_giants;
 
 	static int32 s_blockSizes[b2_blockSizes];

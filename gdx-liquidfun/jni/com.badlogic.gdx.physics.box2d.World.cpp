@@ -135,14 +135,14 @@ public:
 		virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 		{
 			if( preSolveID != 0 )
-				env->CallVoidMethod(obj, preSolveID, (jlong) contact, (jlong) oldManifold);
+				env->CallVoidMethod(obj, preSolveID, (jlong)contact, (jlong)oldManifold);
 		}
 	
 		/// This lets you inspect a contact after the solver is finished.
 		virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 		{
 			if( postSolveID != 0 )
-				env->CallVoidMethod(obj, postSolveID, (jlong) contact, (jlong) impulse);
+				env->CallVoidMethod(obj, postSolveID, (jlong)contact, (jlong)impulse);
 		}
 };
 
@@ -291,6 +291,43 @@ JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_World_jniDestroyBody(
 		world->SetContactFilter(&contactFilter);
 		world->SetContactListener(&contactListener);
 		world->DestroyBody(body);
+		world->SetContactFilter(&defaultFilter);
+		world->SetContactListener(0);
+	
+
+}
+
+JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_World_jniDestroyFixture(JNIEnv* env, jobject object, jlong addr, jlong bodyAddr, jlong fixtureAddr) {
+
+
+//@line:356
+
+		b2World* world = (b2World*)(addr);
+		b2Body* body = (b2Body*)(bodyAddr);
+		b2Fixture* fixture = (b2Fixture*)(fixtureAddr);
+		CustomContactFilter contactFilter(env, object);
+		CustomContactListener contactListener(env, object);
+		world->SetContactFilter(&contactFilter);
+		world->SetContactListener(&contactListener);
+		body->DestroyFixture(fixture);
+		world->SetContactFilter(&defaultFilter);
+		world->SetContactListener(0);
+	
+
+}
+
+JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_World_jniDeactivateBody(JNIEnv* env, jobject object, jlong addr, jlong bodyAddr) {
+
+
+//@line:376
+
+		b2World* world = (b2World*)(addr);
+		b2Body* body = (b2Body*)(bodyAddr);	
+		CustomContactFilter contactFilter(env, object);
+		CustomContactListener contactListener(env, object);
+		world->SetContactFilter(&contactFilter);
+		world->SetContactListener(&contactListener);
+		body->SetActive(false);
 		world->SetContactFilter(&defaultFilter);
 		world->SetContactListener(0);
 	
@@ -745,6 +782,26 @@ JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_World_jniDispose(JNIE
 
 		b2World* world = (b2World*)(addr);
 		delete world;
+	
+
+}
+
+JNIEXPORT void JNICALL Java_com_badlogic_gdx_physics_box2d_World_setVelocityThreshold(JNIEnv* env, jclass clazz, jfloat threshold) {
+
+
+//@line:1014
+
+		b2_velocityThreshold = threshold;
+	
+
+}
+
+JNIEXPORT jfloat JNICALL Java_com_badlogic_gdx_physics_box2d_World_getVelocityThreshold(JNIEnv* env, jclass clazz) {
+
+
+//@line:1019
+
+		return b2_velocityThreshold;
 	
 
 }
