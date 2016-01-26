@@ -457,12 +457,12 @@ void b2World::Init(const b2Vec2& gravity)
 // Find islands, integrate and solve constraints, solve position constraints
 void b2World::Solve(const b2TimeStep& step)
 {
+	// Thommil update : Comment block below based on Box2D 2.3.2
 	// update previous transforms
-	// TODO THOMMIL Comment block below
-	for (b2Body* b = m_bodyList; b; b = b->m_next)
-	{
-		b->m_xf0 = b->m_xf;
-	}
+	//for (b2Body* b = m_bodyList; b; b = b->m_next)
+	//{
+	//	b->m_xf0 = b->m_xf;
+	//}
 
 	m_profile.solveInit = 0.0f;
 	m_profile.solveVelocity = 0.0f;

@@ -28,9 +28,6 @@
 /// This function is used to ensure that a floating point number is
 inline bool b2IsValid(float32 x)
 {
-	// TODO THOMMIL Replace
-	//int32 ix = *reinterpret_cast<int32*>(&x);
-	//return (ix & 0x7f800000) != 0x7f800000;
 	union {
 		float32 f;
 		int32 i;

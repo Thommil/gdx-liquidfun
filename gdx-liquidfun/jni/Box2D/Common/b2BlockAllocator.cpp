@@ -96,7 +96,7 @@ b2BlockAllocator::~b2BlockAllocator()
 
 	b2Free(m_chunks);
 }
-// TODO THOMMIL Comment block below
+
 uint32 b2BlockAllocator::GetNumGiantAllocations() const
 {
 	return m_giants.GetList().GetLength();
@@ -111,7 +111,6 @@ void* b2BlockAllocator::Allocate(int32 size)
 
 	if (size > b2_maxBlockSize)
 	{
-		// TODO THOMMIL return b2Alloc(size);
 		return m_giants.Allocate(size);
 	}
 
@@ -172,7 +171,6 @@ void b2BlockAllocator::Free(void* p, int32 size)
 
 	if (size > b2_maxBlockSize)
 	{
-		// TODO THOMMIL b2Free(p);
 		m_giants.Free(p);
 		return;
 	}

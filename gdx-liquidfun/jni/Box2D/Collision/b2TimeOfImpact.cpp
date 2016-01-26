@@ -67,7 +67,6 @@ struct b2SeparationFunction
 			b2Vec2 pointB = b2Mul(xfB, localPointB);
 			m_axis = pointB - pointA;
 			float32 s = m_axis.Normalize();
-			// TODO THOMMIL Remove ?
 			m_localPoint = b2Vec2_zero;
 			return s;
 		}

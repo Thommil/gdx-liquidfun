@@ -139,8 +139,6 @@ void b2PolygonShape::Set(const b2Vec2* vertices, int32 count)
 		bool unique = true;
 		for (int32 j = 0; j < tempCount; ++j)
 		{
-			// TODO THOMMIL 
-			// if (b2DistanceSquared(v, ps[j]) < ((0.5f * b2_linearSlop) * (0.5f * b2_linearSlop)))
 			if (b2DistanceSquared(v, ps[j]) < 0.5f * b2_linearSlop)
 			{
 				unique = false;
@@ -219,15 +217,6 @@ void b2PolygonShape::Set(const b2Vec2* vertices, int32 count)
 			break;
 		}
 	}
-
-	// TODO THOMMIL 
-	//if (m < 3)
-	//{
-	//	// Polygon is degenerate.
-	//	b2Assert(false);
-	//	SetAsBox(1.0f, 1.0f);
-	//	return;
-	//}
 	
 	m_count = m;
 
