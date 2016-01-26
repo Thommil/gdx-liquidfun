@@ -14,7 +14,7 @@ You can also get some information or ask some questions [in the badlogic forum][
 Update by Thommil
 =================
 ## Changes
-* Import/merge of trunk version of libgdx gdx-box2d extension (1.7.2-SNAPSHOT )and Box2D (2.3.2)
+* Import/merge of trunk version of libgdx gdx-box2d extension (1.7.2-SNAPSHOT) and Box2D (2.3.2)
 * Build fix for IOS
 * Structure refactoring for development in libgdx source
 
@@ -56,3 +56,25 @@ cd $LIBGDX_SOURCE_ROOT
 ant gdx-liquidfun
 ```
 
+## Install
+
+Based on finnstr guide here : https://github.com/finnstr/gdx-liquidfun-extension/wiki/Setup
+
+### Android
+
+There is a missing step, core dependency must be added to Android too :
+
+```gradle
+compile fileTree(dir: '../core/libs', include: '*.jar')
+```
+
+### IOS
+
+For IOS target, the native library libgdx-liquidfun.a must be added in robovm.xml : 
+
+```xml
+<libs>
+  ...
+  <lib>libs/libgdx-liquidfun.a</lib>
+</libs>
+```
