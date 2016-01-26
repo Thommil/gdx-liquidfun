@@ -22,7 +22,7 @@
 #include <cstdarg>
 #include <cstdlib>
 
-b2Version b2_version = {2, 3, 1};
+b2Version b2_version = {2, 3, 2};
 
 #define LIQUIDFUN_VERSION_MAJOR 1
 #define LIQUIDFUN_VERSION_MINOR 1
