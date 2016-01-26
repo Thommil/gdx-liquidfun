@@ -25,6 +25,8 @@
 #include <cfloat>
 #include <cmath>
 
+#define DEBUG 0
+#define NDEBUG 1
 #define B2_NOT_USED(x) ((void)(x))
 //#if DEBUG && !defined(NDEBUG)
 //#define b2Assert(A) assert(A)

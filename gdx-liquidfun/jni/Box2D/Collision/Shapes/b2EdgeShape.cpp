@@ -134,12 +134,10 @@ bool b2EdgeShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 	output->fraction = t;
 	if (numerator > 0.0f)
 	{
-		// TODO THOMMIL output->normal = -normal;
 		output->normal = -b2Mul(xf.q, normal);
 	}
 	else
 	{
-		// TODO THOMMIL output->normal = normal;
 		output->normal = b2Mul(xf.q, normal);
 	}
 	return true;
