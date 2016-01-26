@@ -26,20 +26,20 @@
 #include <cmath>
 
 #define B2_NOT_USED(x) ((void)(x))
-#if DEBUG && !defined(NDEBUG)
-#define b2Assert(A) assert(A)
-#define B2_ASSERT_ENABLED 1
-#else
+//#if DEBUG && !defined(NDEBUG)
+//#define b2Assert(A) assert(A)
+//#define B2_ASSERT_ENABLED 1
+//#else
 #define b2Assert(A)
 #define B2_ASSERT_ENABLED 0
-#endif
+//#endif
 
 // Statement which is compiled out when DEBUG isn't defined.
-#if DEBUG
-#define B2_DEBUG_STATEMENT(A) A
-#else
+//#if DEBUG
+//#define B2_DEBUG_STATEMENT(A) A
+//#else
 #define B2_DEBUG_STATEMENT(A)
-#endif  // DEBUG
+//#endif  // DEBUG
 
 // Calculate the size of a static array.
 #define B2_ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
